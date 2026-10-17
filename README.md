@@ -13,20 +13,23 @@ The tests run in real mode and in 16-bit protected mode:
 
 ## Contents
 
-| File                     | Purpose                                         |
-|--------------------------|-------------------------------------------------|
-| `src/ucsock.pas`         | The tests                                       |
-| `src/csock.pas`          | CSock, the Pascal bindings of the VxD API       |
-| `src/csock.asm`          | The TASM stubs behind CSock                     |
-| `src/utests.pas`         | The unit test framework                         |
-| `src/utils.pas`, `src/bits.pas`, `src/ticker.pas`, `src/vxdapi.pas` | Support units |
+| File             | Purpose                                     |
+|------------------|---------------------------------------------|
+| `src/ucsock.pas` | The tests                                   |
+| `src/csock.pas`  | CSock, the Pascal bindings of the VxD API   |
+| `src/csock.asm`  | The TASM stubs behind CSock                 |
+| `src/utests.pas` | The unit test framework                     |
+| `src/utils.pas`  | String and number helpers                   |
+| `src/bits.pas`   | Low-level helpers: inlines, setjmp, longjmp |
+| `src/ticker.pas` | Millisecond timer based on the BIOS ticker  |
+| `src/vxdapi.pas` | Finds the entry point of a VxD              |
 
 ## Building
 
 Requires Borland Pascal 7 with TASM and Borland MAKE. Set `BPROOT` in
 `src/makefile` to your Borland Pascal directory, then run in `src`:
 
-```
+```text
 make
 ```
 
@@ -36,16 +39,13 @@ The programs end up in `src\build`. `make clean` removes the directory.
 
 Inside dosemu2:
 
-```
+```text
 ucsockd [<host> [<port>]]
 ucsockp [<host> [<port>]]
 ```
 
 `<host>` is the IP address of an HTTP server, `<port>` its port.
 Default port: 80. Without arguments, the tests use 192.168.0.200:81.
-
-`ucsockp.exe` needs Borland Pascal's `RTM.EXE` in the current directory or
-on the `PATH`. dosemu2 provides the DPMI host.
 
 The tests expect:
 
@@ -63,18 +63,18 @@ RecvMsgTests.
 
 A failed test exits with code 1 and leaves its sockets open in dosemu2,
 which has 32. Without the VxD, the programs display
-`CSOCK unavailable, nothing to test` and exit with code 0.
+`CSOCK unavailable, nothing to test` and exit with code 1.
 
 Environment variables control the test runner:
 
-| Variable           | Effect                                           |
-|--------------------|--------------------------------------------------|
-| `UTESTV=1`         | Verbose output                                   |
+| Variable           | Effect                                                     |
+|--------------------|------------------------------------------------------------|
+| `UTESTV=1`         | Verbose output                                             |
 | `UTESTP=<pattern>` | Runs only the tests matching `<pattern>`, e.g. `Loopback*` |
-| `UTESTR=<n>`       | Runs every test `<n>` times                      |
-| `UTESTB=1`         | Batch mode                                       |
-| `UTESTI3=1`        | Breaks into the debugger before every test       |
+| `UTESTR=<n>`       | Runs every test `<n>` times                                |
+| `UTESTB=1`         | Batch mode                                                 |
+| `UTESTI3=1`        | Breaks into the debugger before every test                 |
 
 ## License
 
-MIT, see the SPDX headers of the sources.
+MIT, see [LICENSE](LICENSE).

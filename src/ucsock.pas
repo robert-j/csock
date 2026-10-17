@@ -584,7 +584,7 @@ begin
   if not CSockInit then
   begin
     WriteLn('CSOCK unavailable, nothing to test');
-    exit;
+    Halt(1);
   end;
 
   RunTest('BasicTests', BasicTests);
